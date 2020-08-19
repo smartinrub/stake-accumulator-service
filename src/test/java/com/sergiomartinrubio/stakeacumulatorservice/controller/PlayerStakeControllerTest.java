@@ -10,8 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -38,7 +37,7 @@ class PlayerStakeControllerTest {
                 .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isCreated());
-        verify(playerStakeService).process(new PlayerStake(123, new BigDecimal(40)));
+        then(playerStakeService).should().process(new PlayerStake(123, new BigDecimal(40)));
     }
 
     @Test
@@ -53,6 +52,6 @@ class PlayerStakeControllerTest {
                 .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
-        verifyNoInteractions(playerStakeService);
+        then(playerStakeService).shouldHaveNoInteractions();
     }
 }

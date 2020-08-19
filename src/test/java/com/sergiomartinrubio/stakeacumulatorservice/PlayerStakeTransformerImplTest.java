@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class PlayerStakeTransformerImplTest {
@@ -41,8 +41,8 @@ class PlayerStakeTransformerImplTest {
                 .stake(playerStake.getStake())
                 .creationDateTime(NOW)
                 .build();
-        when(clock.instant()).thenReturn(INSTANT_NOW);
-        when(clock.getZone()).thenReturn(UK_ZONE_ID);
+        given(clock.instant()).willReturn(INSTANT_NOW);
+        given(clock.getZone()).willReturn(UK_ZONE_ID);
 
         // WHEN
         PlayerStakeEntity result = playerStakeTransformer.transformPlayerStake(playerStake);
