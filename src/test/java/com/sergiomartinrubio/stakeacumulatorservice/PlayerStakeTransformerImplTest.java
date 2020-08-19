@@ -48,7 +48,9 @@ class PlayerStakeTransformerImplTest {
         PlayerStakeEntity result = playerStakeTransformer.transformPlayerStake(playerStake);
 
         // THEN
-        assertThat(result).isEqualTo(playerStakeEntity);
+        assertThat(result.getAccountId()).isEqualTo(playerStakeEntity.getAccountId());
+        assertThat(result.getStake()).isEqualTo(playerStakeEntity.getStake());
+        assertThat(result.getCreationDateTime()).isEqualTo(playerStakeEntity.getCreationDateTime());
     }
 
 }

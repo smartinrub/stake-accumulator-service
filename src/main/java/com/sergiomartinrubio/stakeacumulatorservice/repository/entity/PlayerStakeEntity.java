@@ -1,18 +1,32 @@
 package com.sergiomartinrubio.stakeacumulatorservice.repository.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Value
+
+@Entity
+@Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "player_stake")
 public class PlayerStakeEntity {
-    long accountId;
-    BigDecimal stake;
-    LocalDateTime creationDateTime;
+
+    @Id
+    private UUID id;
+
+    private Long accountId;
+
+    private BigDecimal stake;
+
+    private LocalDateTime creationDateTime;
 }

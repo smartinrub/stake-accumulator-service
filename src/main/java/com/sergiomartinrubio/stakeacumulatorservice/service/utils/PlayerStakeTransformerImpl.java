@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class PlayerStakeTransformerImpl implements PlayerStakeTransformer {
     @Override
     public PlayerStakeEntity transformPlayerStake(PlayerStake playerStake) {
         return PlayerStakeEntity.builder()
+                .id(UUID.randomUUID())
                 .accountId(playerStake.getAccountId())
                 .stake(playerStake.getStake())
                 .creationDateTime(LocalDateTime.ofInstant(Instant.now(clock), clock.getZone()))
