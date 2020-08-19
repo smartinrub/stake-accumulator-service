@@ -27,7 +27,7 @@ class PlayerStakeControllerTest {
     private PlayerStakeService playerStakeService;
 
     @Test
-    public void shouldProcessMessage() throws Exception {
+    public void shouldProcessPlayerStake() throws Exception {
         // GIVEN
         String requestBody = "{\"accountId\":123, \"stake\":40}";
 
@@ -38,7 +38,7 @@ class PlayerStakeControllerTest {
                 .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isCreated());
-        verify(playerStakeService).save(new PlayerStake(123, new BigDecimal(40)));
+        verify(playerStakeService).process(new PlayerStake(123, new BigDecimal(40)));
     }
 
     @Test

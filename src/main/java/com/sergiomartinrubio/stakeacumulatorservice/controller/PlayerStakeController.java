@@ -19,6 +19,6 @@ public class PlayerStakeController {
     @ResponseStatus(CREATED)
     @PostMapping
     public void savePlayerStake(@RequestBody @Valid PlayerStake playerStake) {
-        playerStakeService.save(playerStake);
+        playerStakeService.process(playerStake);
     }
 }
