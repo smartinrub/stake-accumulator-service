@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class PlayerStakeServiceImplTest {
 
-    private static final int ACCOUNT_ID = 123;
+    private static final Long ACCOUNT_ID = 123L;
     private static final LocalDateTime NOW = LocalDateTime.now();
 
     @Mock

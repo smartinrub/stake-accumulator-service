@@ -1,5 +1,5 @@
 package com.sergiomartinrubio.stakeacumulatorservice.service;
 
 public interface PlayerStakeVerificationService {
-    void evaluate(long accountId);
+    void evaluate(Long accountId);
 }
