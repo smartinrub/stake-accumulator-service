@@ -20,6 +20,5 @@ public class PlayerStakeController {
     @PostMapping
     public void savePlayerStake(@RequestBody @Valid PlayerStake playerStake) {
         playerStakeService.save(playerStake);
-
     }
 }
