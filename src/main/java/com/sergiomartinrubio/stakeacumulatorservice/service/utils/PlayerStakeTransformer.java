@@ -2,7 +2,6 @@ package com.sergiomartinrubio.stakeacumulatorservice.service.utils;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.entity.PlayerStakeEntity;
-import com.sergiomartinrubio.stakeacumulatorservice.service.utils.impl.PlayerStakeTransformer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +12,10 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class PlayerStakeTransformerImpl implements PlayerStakeTransformer {
+public class PlayerStakeTransformer {
 
     private final Clock clock;
 
-    @Override
     public PlayerStakeEntity transformPlayerStake(PlayerStake playerStake) {
         return PlayerStakeEntity.builder()
                 .id(UUID.randomUUID())

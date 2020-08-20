@@ -2,7 +2,7 @@ package com.sergiomartinrubio.stakeacumulatorservice;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.entity.PlayerStakeEntity;
-import com.sergiomartinrubio.stakeacumulatorservice.service.utils.PlayerStakeTransformerImpl;
+import com.sergiomartinrubio.stakeacumulatorservice.service.utils.PlayerStakeTransformer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class PlayerStakeTransformerImplTest {
+class PlayerStakeTransformerTest {
 
     private static final int ACCOUNT_ID = 123;
     public static final Instant INSTANT_NOW = Instant.now();
@@ -30,7 +30,7 @@ class PlayerStakeTransformerImplTest {
     private Clock clock;
 
     @InjectMocks
-    private PlayerStakeTransformerImpl playerStakeTransformer;
+    private PlayerStakeTransformer playerStakeTransformer;
 
     @Test
     void shouldTransformPlayerStakeObject() {

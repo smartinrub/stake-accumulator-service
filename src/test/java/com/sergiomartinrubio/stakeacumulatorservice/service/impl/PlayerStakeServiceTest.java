@@ -3,8 +3,7 @@ package com.sergiomartinrubio.stakeacumulatorservice.service.impl;
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.PlayerStakeRepository;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.entity.PlayerStakeEntity;
-import com.sergiomartinrubio.stakeacumulatorservice.service.PlayerStakeVerificationService;
-import com.sergiomartinrubio.stakeacumulatorservice.service.utils.PlayerStakeTransformerImpl;
+import com.sergiomartinrubio.stakeacumulatorservice.service.utils.PlayerStakeTransformer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,13 +17,13 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class PlayerStakeServiceImplTest {
+class PlayerStakeServiceTest {
 
     private static final Long ACCOUNT_ID = 123L;
     private static final LocalDateTime NOW = LocalDateTime.now();
 
     @Mock
-    private PlayerStakeTransformerImpl playerStakeTransformer;
+    private PlayerStakeTransformer playerStakeTransformer;
 
     @Mock
     private PlayerStakeRepository playerStakeRepository;
@@ -33,7 +32,7 @@ class PlayerStakeServiceImplTest {
     private PlayerStakeVerificationService playerStakeVerificationService;
 
     @InjectMocks
-    private PlayerStakeServiceImpl playerStakeService;
+    private PlayerStakeService playerStakeService;
 
     @Test
     void shouldSavePlayerStake() {

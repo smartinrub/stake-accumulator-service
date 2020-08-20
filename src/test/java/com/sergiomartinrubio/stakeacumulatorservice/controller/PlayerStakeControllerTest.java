@@ -1,7 +1,7 @@
 package com.sergiomartinrubio.stakeacumulatorservice.controller;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
-import com.sergiomartinrubio.stakeacumulatorservice.service.PlayerStakeService;
+import com.sergiomartinrubio.stakeacumulatorservice.service.impl.PlayerStakeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
