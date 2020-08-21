@@ -1,9 +1,6 @@
 package com.sergiomartinrubio.stakeacumulatorservice.repository.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +14,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @Builder
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "player_stake")
