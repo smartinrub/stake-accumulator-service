@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: craete-player-stake-table
       author: Sergio Martin Rubio
       changes:
         - createTable:
@@ -27,3 +27,14 @@ databaseChangeLog:
                   type: timestamp
                   constraints:
                     nullable: false
+  - changeSet:
+      id:  add-account-id-index
+      author:  Sergio Martin Rubio
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name:  account_id
+            indexName:  idx_player_stake
+            tableName:  player_stake
+            unique:  false
