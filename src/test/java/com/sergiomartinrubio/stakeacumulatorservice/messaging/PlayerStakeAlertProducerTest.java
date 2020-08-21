@@ -35,6 +35,7 @@ class PlayerStakeAlertProducerTest {
         playerStakeAlertProducer.sendMessage(message);
 
         // THEN
+        jmsTemplate.setReceiveTimeout(1_000);
         AlertPlayerStakeMessage result = (AlertPlayerStakeMessage) jmsTemplate.receiveAndConvert(queueName);
         assertThat(result).isEqualTo(message);
     }
