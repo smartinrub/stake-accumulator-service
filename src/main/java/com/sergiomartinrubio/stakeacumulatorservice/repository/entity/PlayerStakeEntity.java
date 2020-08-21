@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,9 +25,11 @@ public class PlayerStakeEntity {
     @Id
     private UUID id;
 
+    @Column(name = "account_id")
     private Long accountId;
 
     private BigDecimal stake;
 
+    @Column(name = "creation_date_time")
     private LocalDateTime creationDateTime;
 }

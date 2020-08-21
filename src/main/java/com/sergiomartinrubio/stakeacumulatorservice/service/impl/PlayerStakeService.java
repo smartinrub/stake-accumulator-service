@@ -13,11 +13,11 @@ public class PlayerStakeService {
 
     private final PlayerStakeTransformer playerStakeTransformer;
     private final PlayerStakeRepository playerStakeRepository;
-    private final PlayerStakeVerificationService playerStakeVerificationService;
+    private final StakeVerificationService stakeVerificationService;
 
     public void process(PlayerStake playerStake) {
         PlayerStakeEntity playerStakeEntity = playerStakeTransformer.transformPlayerStake(playerStake);
         playerStakeRepository.save(playerStakeEntity);
-        playerStakeVerificationService.evaluate(playerStake.getAccountId());
+        stakeVerificationService.verify(playerStake.getAccountId());
     }
 }

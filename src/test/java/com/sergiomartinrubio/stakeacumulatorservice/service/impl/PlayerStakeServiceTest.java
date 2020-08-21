@@ -29,7 +29,7 @@ class PlayerStakeServiceTest {
     private PlayerStakeRepository playerStakeRepository;
 
     @Mock
-    private PlayerStakeVerificationService playerStakeVerificationService;
+    private StakeVerificationService stakeVerificationService;
 
     @InjectMocks
     private PlayerStakeService playerStakeService;
@@ -50,7 +50,7 @@ class PlayerStakeServiceTest {
 
         // THEN
         then(playerStakeRepository).should().save(playerStakeEntity);
-        then(playerStakeVerificationService).should().evaluate(ACCOUNT_ID);
+        then(stakeVerificationService).should().verify(ACCOUNT_ID);
     }
 
 }
