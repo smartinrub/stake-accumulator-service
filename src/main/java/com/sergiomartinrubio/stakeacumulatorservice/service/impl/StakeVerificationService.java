@@ -2,7 +2,7 @@ package com.sergiomartinrubio.stakeacumulatorservice.service.impl;
 
 import com.sergiomartinrubio.stakeacumulatorservice.configuration.PlayerStakeThresholdProperties;
 import com.sergiomartinrubio.stakeacumulatorservice.messaging.PlayerStakeAlertProducer;
-import com.sergiomartinrubio.stakeacumulatorservice.model.AlertPlayerStakeMessage;
+import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeAlertMessage;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.PlayerStakeRepository;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.entity.PlayerStakeEntity;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class StakeVerificationService {
         BigDecimal totalStake = getTotalStake(playerStakes);
 
         if (totalStake.compareTo(playerStakeThresholdProperties.getAmount()) > 0) {
-            playerStakeAlertProducer.sendMessage(new AlertPlayerStakeMessage(accountId, totalStake));
+            playerStakeAlertProducer.sendMessage(new PlayerStakeAlertMessage(accountId, totalStake));
         }
     }
 

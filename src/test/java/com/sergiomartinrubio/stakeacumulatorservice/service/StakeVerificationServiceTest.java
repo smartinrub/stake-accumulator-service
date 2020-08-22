@@ -2,7 +2,7 @@ package com.sergiomartinrubio.stakeacumulatorservice.service;
 
 import com.sergiomartinrubio.stakeacumulatorservice.configuration.PlayerStakeThresholdProperties;
 import com.sergiomartinrubio.stakeacumulatorservice.messaging.PlayerStakeAlertProducer;
-import com.sergiomartinrubio.stakeacumulatorservice.model.AlertPlayerStakeMessage;
+import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeAlertMessage;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.PlayerStakeRepository;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.entity.PlayerStakeEntity;
 import com.sergiomartinrubio.stakeacumulatorservice.service.impl.StakeVerificationService;
@@ -80,7 +80,7 @@ class StakeVerificationServiceTest {
         stakeVerificationService.verify(ACCOUNT_ID);
 
         // THEN
-        then(playerStakeAlertProducer).should().sendMessage(new AlertPlayerStakeMessage(ACCOUNT_ID, new BigDecimal(130)));
+        then(playerStakeAlertProducer).should().sendMessage(new PlayerStakeAlertMessage(ACCOUNT_ID, new BigDecimal(130)));
     }
 
     private PlayerStakeEntity createPlayerStakeEntity(UUID playerStakeId, BigDecimal stake) {

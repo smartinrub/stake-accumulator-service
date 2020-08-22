@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class AlertPlayerStakeMessage {
+public class PlayerStakeAlertMessage {
     private Long accountId;
     private BigDecimal cumulatedAmount;
 }

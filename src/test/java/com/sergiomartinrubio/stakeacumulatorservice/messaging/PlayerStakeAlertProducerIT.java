@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeacumulatorservice.messaging;
 
-import com.sergiomartinrubio.stakeacumulatorservice.model.AlertPlayerStakeMessage;
+import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeAlertMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,13 +29,13 @@ class PlayerStakeAlertProducerIT {
     @Test
     void shouldSendMessage() {
         // GIVEN
-        AlertPlayerStakeMessage message = new AlertPlayerStakeMessage(ACCOUNT_ID, CUMULATED_AMOUNT);
+        PlayerStakeAlertMessage message = new PlayerStakeAlertMessage(ACCOUNT_ID, CUMULATED_AMOUNT);
 
         // WHEN
         playerStakeAlertProducer.sendMessage(message);
 
         // THEN
-        AlertPlayerStakeMessage result = (AlertPlayerStakeMessage) jmsTemplate.receiveAndConvert(queueName);
+        PlayerStakeAlertMessage result = (PlayerStakeAlertMessage) jmsTemplate.receiveAndConvert(queueName);
         assertThat(result).isEqualTo(message);
     }
 
