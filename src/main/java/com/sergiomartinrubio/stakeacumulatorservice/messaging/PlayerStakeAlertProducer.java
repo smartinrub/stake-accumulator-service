@@ -2,10 +2,12 @@ package com.sergiomartinrubio.stakeacumulatorservice.messaging;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeAlertMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class PlayerStakeAlertProducer {
@@ -15,8 +17,9 @@ public class PlayerStakeAlertProducer {
 
     private final JmsTemplate jmsTemplate;
 
-    public void sendMessage(PlayerStakeAlertMessage playerStakeAlertMessage) {
-        jmsTemplate.convertAndSend(queueName, playerStakeAlertMessage);
+    public void sendMessage(PlayerStakeAlertMessage message) {
+        log.info("Sending alert to account {} with cumulated stake {}", message.getAccountId(), message.getCumulatedAmount());
+        jmsTemplate.convertAndSend(queueName, message);
     }
 
 }
