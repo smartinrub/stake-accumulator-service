@@ -1,4 +1,4 @@
-# stake-accumulator-service
+# Stake Accumulator Service
 
 ## Table of contents
 * [General info](#general-info)
