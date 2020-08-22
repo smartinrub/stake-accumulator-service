@@ -5,7 +5,6 @@ import com.sergiomartinrubio.stakeacumulatorservice.messaging.PlayerStakeAlertPr
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeAlertMessage;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.PlayerStakeRepository;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.entity.PlayerStakeEntity;
-import com.sergiomartinrubio.stakeacumulatorservice.service.impl.StakeVerificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

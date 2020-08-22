@@ -2,7 +2,7 @@ package com.sergiomartinrubio.stakeacumulatorservice.messaging;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeMessage;
-import com.sergiomartinrubio.stakeacumulatorservice.service.impl.PlayerStakeService;
+import com.sergiomartinrubio.stakeacumulatorservice.service.PlayerStakeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;

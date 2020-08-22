@@ -1,7 +1,7 @@
 package com.sergiomartinrubio.stakeacumulatorservice.controller;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
-import com.sergiomartinrubio.stakeacumulatorservice.service.impl.PlayerStakeService;
+import com.sergiomartinrubio.stakeacumulatorservice.service.PlayerStakeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

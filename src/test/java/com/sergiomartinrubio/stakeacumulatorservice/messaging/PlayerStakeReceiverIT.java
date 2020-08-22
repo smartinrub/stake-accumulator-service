@@ -2,7 +2,7 @@ package com.sergiomartinrubio.stakeacumulatorservice.messaging;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStakeMessage;
-import com.sergiomartinrubio.stakeacumulatorservice.service.impl.PlayerStakeService;
+import com.sergiomartinrubio.stakeacumulatorservice.service.PlayerStakeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
