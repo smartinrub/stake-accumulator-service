@@ -3,7 +3,9 @@ package com.sergiomartinrubio.stakeaccumulatorservice.service;
 import com.sergiomartinrubio.stakeaccumulatorservice.configuration.PlayerStakeThresholdProperties;
 import com.sergiomartinrubio.stakeaccumulatorservice.messaging.PlayerStakeAlertProducer;
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertMessage;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -39,6 +42,9 @@ class PlayerStakeNotificationServiceTest {
     @Mock
     private PlayerStakeAlertProducer playerStakeAlertProducer;
 
+    @Mock
+    private PlayerStakeAlertRepository playerStakeAlertRepository;
+
     @InjectMocks
     private PlayerStakeNotificationService playerStakeNotificationService;
 
@@ -57,6 +63,7 @@ class PlayerStakeNotificationServiceTest {
 
         // THEN
         then(playerStakeAlertProducer).shouldHaveNoInteractions();
+        then(playerStakeAlertRepository).shouldHaveNoInteractions();
     }
 
     @Test
@@ -80,6 +87,7 @@ class PlayerStakeNotificationServiceTest {
 
         // THEN
         then(playerStakeAlertProducer).should().sendMessage(new PlayerStakeAlertMessage(ACCOUNT_ID, new BigDecimal(130)));
+        then(playerStakeAlertRepository).should().save(any(PlayerStakeAlertEntity.class));
     }
 
     private PlayerStakeEntity createPlayerStakeEntity(UUID playerStakeId, BigDecimal stake) {

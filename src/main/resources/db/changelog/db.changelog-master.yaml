@@ -38,3 +38,31 @@ databaseChangeLog:
             indexName:  idx_player_stake
             tableName:  player_stake
             unique:  false
+  - changeSet:
+      id: craete-player-stake-alert-table
+      author: Sergio Martin Rubio
+      changes:
+        - createTable:
+            tableName: player_stake_alert
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: account_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cumulated_amount
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_date_time
+                  type: timestamp
+                  constraints:
+                    nullable: false

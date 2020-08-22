@@ -3,14 +3,18 @@ package com.sergiomartinrubio.stakeaccumulatorservice.service;
 import com.sergiomartinrubio.stakeaccumulatorservice.configuration.PlayerStakeThresholdProperties;
 import com.sergiomartinrubio.stakeaccumulatorservice.messaging.PlayerStakeAlertProducer;
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertMessage;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class PlayerStakeNotificationService {
     private final PlayerStakeRepository playerStakeRepository;
     private final PlayerStakeAlertProducer playerStakeAlertProducer;
     private final PlayerStakeThresholdProperties playerStakeThresholdProperties;
+    private final PlayerStakeAlertRepository playerStakeAlertRepository;
 
     public void evaluate(Long accountId) {
         Set<PlayerStakeEntity> playerStakes = playerStakeRepository
@@ -28,7 +33,11 @@ public class PlayerStakeNotificationService {
         BigDecimal totalStake = getTotalStake(playerStakes);
 
         if (totalStake.compareTo(playerStakeThresholdProperties.getAmount()) > 0) {
-            playerStakeAlertProducer.sendMessage(new PlayerStakeAlertMessage(accountId, totalStake));
+            PlayerStakeAlertMessage message = new PlayerStakeAlertMessage(accountId, totalStake);
+            playerStakeAlertProducer.sendMessage(message);
+            PlayerStakeAlertEntity stakeAlertEntity = new PlayerStakeAlertEntity(UUID.randomUUID(),
+                    accountId, totalStake, LocalDateTime.now());
+            playerStakeAlertRepository.save(stakeAlertEntity);
         }
     }
 
