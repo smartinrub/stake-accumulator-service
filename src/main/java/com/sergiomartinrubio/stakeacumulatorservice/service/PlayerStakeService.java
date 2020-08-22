@@ -1,4 +1,4 @@
-package com.sergiomartinrubio.stakeacumulatorservice.service.impl;
+package com.sergiomartinrubio.stakeacumulatorservice.service;
 
 import com.sergiomartinrubio.stakeacumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeacumulatorservice.repository.PlayerStakeRepository;
