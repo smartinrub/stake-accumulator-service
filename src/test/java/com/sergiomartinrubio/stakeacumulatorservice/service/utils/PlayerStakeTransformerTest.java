@@ -23,7 +23,7 @@ class PlayerStakeTransformerTest {
 
     private static final int ACCOUNT_ID = 123;
     public static final Instant INSTANT_NOW = Instant.now();
-    public static final ZoneId UK_ZONE_ID = ZoneId.of("UTC");
+    public static final ZoneId UK_ZONE_ID = ZoneId.systemDefault();
     private static final LocalDateTime NOW = LocalDateTime.ofInstant(INSTANT_NOW, UK_ZONE_ID);
 
     @Mock

@@ -10,6 +10,6 @@ import java.time.ZoneId;
 public class ClockConfiguration {
     @Bean
     public Clock clock() {
-        return Clock.system(ZoneId.of("UTC"));
+        return Clock.system(ZoneId.systemDefault());
     }
 }
