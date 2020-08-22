@@ -12,7 +12,6 @@ This application is to flag to a Business Operator when a customer, playing a ga
 stake more than £X in a given Ys time window.
 	
 ## Technologies
-Project is created with:
 * Java 14
 * Spring Boot
 * Embedded Message Broker ActiveMQ
