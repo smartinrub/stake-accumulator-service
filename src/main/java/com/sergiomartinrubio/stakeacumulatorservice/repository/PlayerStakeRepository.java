@@ -14,7 +14,7 @@ public interface PlayerStakeRepository extends JpaRepository<PlayerStakeEntity, 
 
     @Query(value = "SELECT * FROM player_stake " +
             "WHERE account_id = :accountId " +
-            "AND NOW() < DATEADD(hour, :hours, creation_date_time)", nativeQuery = true)
+            "AND current_timestamp < DATEADD(hour, :hours, creation_date_time)", nativeQuery = true)
     Set<PlayerStakeEntity> findAllByAccountAndHoursThreshold(@Param("accountId") Long accountId,
                                                              @Param("hours") int hours);
 }
