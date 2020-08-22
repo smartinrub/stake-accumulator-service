@@ -31,7 +31,7 @@ class PlayerStakeNotificationServiceTest {
     private static final UUID PLAYER_STAKE_ID_3 = UUID.randomUUID();
     private static final UUID PLAYER_STAKE_ID_4 = UUID.randomUUID();
     private static final BigDecimal AMOUNT_THRESHOLD = new BigDecimal(100);
-    private static final int ONE_HOUR = 1;
+    private static final int SIXTY_MINUTES = 60;
 
     @Mock
     private PlayerStakeRepository playerStakeRepository;
@@ -53,10 +53,10 @@ class PlayerStakeNotificationServiceTest {
         // GIVEN
         PlayerStakeEntity firstPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
         PlayerStakeEntity secondPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
-        given(playerStakeRepository.findAllByAccountAndHoursThreshold(ACCOUNT_ID, ONE_HOUR))
+        given(playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES))
                 .willReturn(Set.of(firstPlayerStakeEntity, secondPlayerStakeEntity));
         given(playerStakeThresholdProperties.getAmount()).willReturn(AMOUNT_THRESHOLD);
-        given(playerStakeThresholdProperties.getHours()).willReturn(ONE_HOUR);
+        given(playerStakeThresholdProperties.getTimeWindowInMinutes()).willReturn(SIXTY_MINUTES);
 
         // WHEN
         playerStakeNotificationService.evaluate(ACCOUNT_ID);
@@ -78,9 +78,9 @@ class PlayerStakeNotificationServiceTest {
                 secondPlayerStakeEntity,
                 thirdPlayerStakeEntity,
                 fourthPlayerStakeEntity);
-        given(playerStakeRepository.findAllByAccountAndHoursThreshold(ACCOUNT_ID, ONE_HOUR)).willReturn(stakes);
+        given(playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES)).willReturn(stakes);
         given(playerStakeThresholdProperties.getAmount()).willReturn(AMOUNT_THRESHOLD);
-        given(playerStakeThresholdProperties.getHours()).willReturn(ONE_HOUR);
+        given(playerStakeThresholdProperties.getTimeWindowInMinutes()).willReturn(SIXTY_MINUTES);
 
         // WHEN
         playerStakeNotificationService.evaluate(ACCOUNT_ID);

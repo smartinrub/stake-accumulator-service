@@ -28,7 +28,7 @@ public class PlayerStakeNotificationService {
 
     public void evaluate(Long accountId) {
         Set<PlayerStakeEntity> playerStakes = playerStakeRepository
-                .findAllByAccountAndHoursThreshold(accountId, playerStakeThresholdProperties.getHours());
+                .findAllByAccountAndTimeWindowThreshold(accountId, playerStakeThresholdProperties.getTimeWindowInMinutes());
 
         BigDecimal totalStake = getTotalStake(playerStakes);
 

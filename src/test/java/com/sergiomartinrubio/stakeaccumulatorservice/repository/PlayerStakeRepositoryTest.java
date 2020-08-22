@@ -9,10 +9,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 import java.util.UUID;
 
-import static java.time.temporal.ChronoUnit.MINUTES;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -20,11 +20,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PlayerStakeRepositoryTest {
 
     private static final Long ACCOUNT_ID = 123L;
-    private static final int HOURS = 1;
+    private static final int MINUTES = 60;
     private static final LocalDateTime CREATION_DATE_TIME_LESS_THAN_AN_HOUR = LocalDateTime.now()
-            .minus(59, MINUTES);
+            .minus(59, ChronoUnit.MINUTES);
     private static final LocalDateTime CREATION_DATE_TIME_MORE_THAN_AN_HOUR = LocalDateTime.now()
-            .minus(61, MINUTES);
+            .minus(61, ChronoUnit.MINUTES);
     private static final UUID STAKE_ID_1 = UUID.randomUUID();
     private static final UUID STAKE_ID_2 = UUID.randomUUID();
 
@@ -40,7 +40,7 @@ class PlayerStakeRepositoryTest {
         playerStakeRepository.save(secondPlayerStake);
 
         // WHEN
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndHoursThreshold(ACCOUNT_ID, HOURS);
+        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
 
         // THEN
         assertThat(playerStakes).hasSize(1);
@@ -54,7 +54,7 @@ class PlayerStakeRepositoryTest {
         playerStakeRepository.save(secondPlayerStake);
 
         // WHEN
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndHoursThreshold(ACCOUNT_ID, HOURS);
+        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
 
         // THEN
         assertThat(playerStakes).hasSize(0);

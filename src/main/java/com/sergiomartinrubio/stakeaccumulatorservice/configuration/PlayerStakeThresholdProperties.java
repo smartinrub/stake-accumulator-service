@@ -14,5 +14,5 @@ public class PlayerStakeThresholdProperties {
 
     private BigDecimal amount;
 
-    private Integer hours;
+    private Integer timeWindowInMinutes;
 }
