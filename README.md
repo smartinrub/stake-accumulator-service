@@ -1,1 +1,2 @@
-# stake-acumulator-service
+# stake-accumulator-service
+

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sergiomartinrubio</groupId>
-    <artifactId>stake-acumulator-service</artifactId>
+    <artifactId>stake-acccumulator-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>stake-acumulator-service</name>
+    <name>stake-accumulator-service</name>
     <description>Service to manage player stakes</description>
 
     <properties>
