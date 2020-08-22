@@ -19,6 +19,7 @@ public class PlayerStakeAlertProducer {
 
     public void sendMessage(PlayerStakeAlertMessage message) {
         log.info("Sending alert to account {} with cumulated stake {}", message.getAccountId(), message.getCumulatedAmount());
+        // Assuming there is another service listening to player-stake-alert-queue
         jmsTemplate.convertAndSend(queueName, message);
     }
 

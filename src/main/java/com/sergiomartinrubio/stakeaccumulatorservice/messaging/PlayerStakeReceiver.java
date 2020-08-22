@@ -18,6 +18,7 @@ public class PlayerStakeReceiver {
     @JmsListener(destination = "${jms.player-stake-queue.name}")
     public void receiveMessage(PlayerStakeMessage message) {
         log.info("Message received for account {} with stake {}", message.getAccountId(), message.getStake());
+        // Assuming there is another service publishing messages to player-stake-queue
         playerStakeService.process(new PlayerStake(message.getAccountId(), message.getStake()));
     }
 }
