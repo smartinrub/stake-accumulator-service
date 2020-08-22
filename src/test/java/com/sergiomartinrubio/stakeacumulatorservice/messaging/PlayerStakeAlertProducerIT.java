@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class PlayerStakeAlertProducerTest {
+class PlayerStakeAlertProducerIT {
 
     private static final long ACCOUNT_ID = 123L;
     private static final BigDecimal CUMULATED_AMOUNT = new BigDecimal(130);
@@ -35,7 +35,6 @@ class PlayerStakeAlertProducerTest {
         playerStakeAlertProducer.sendMessage(message);
 
         // THEN
-        jmsTemplate.setReceiveTimeout(1_000);
         AlertPlayerStakeMessage result = (AlertPlayerStakeMessage) jmsTemplate.receiveAndConvert(queueName);
         assertThat(result).isEqualTo(message);
     }
