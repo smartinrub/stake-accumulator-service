@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
-class StakeVerificationServiceTest {
+class PlayerStakeNotificationServiceTest {
 
     private static final Long ACCOUNT_ID = 123L;
     private static final UUID PLAYER_STAKE_ID_1 = UUID.randomUUID();
@@ -40,7 +40,7 @@ class StakeVerificationServiceTest {
     private PlayerStakeAlertProducer playerStakeAlertProducer;
 
     @InjectMocks
-    private StakeVerificationService stakeVerificationService;
+    private PlayerStakeNotificationService playerStakeNotificationService;
 
     @Test
     void shouldNotSendAlertWhenPlayerStakeIsUnder100() {
@@ -53,7 +53,7 @@ class StakeVerificationServiceTest {
         given(playerStakeThresholdProperties.getHours()).willReturn(ONE_HOUR);
 
         // WHEN
-        stakeVerificationService.verify(ACCOUNT_ID);
+        playerStakeNotificationService.evaluate(ACCOUNT_ID);
 
         // THEN
         then(playerStakeAlertProducer).shouldHaveNoInteractions();
@@ -76,7 +76,7 @@ class StakeVerificationServiceTest {
         given(playerStakeThresholdProperties.getHours()).willReturn(ONE_HOUR);
 
         // WHEN
-        stakeVerificationService.verify(ACCOUNT_ID);
+        playerStakeNotificationService.evaluate(ACCOUNT_ID);
 
         // THEN
         then(playerStakeAlertProducer).should().sendMessage(new PlayerStakeAlertMessage(ACCOUNT_ID, new BigDecimal(130)));

@@ -15,13 +15,13 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @EnableConfigurationProperties(PlayerStakeThresholdProperties.class)
-public class StakeVerificationService {
+public class PlayerStakeNotificationService {
 
     private final PlayerStakeRepository playerStakeRepository;
     private final PlayerStakeAlertProducer playerStakeAlertProducer;
     private final PlayerStakeThresholdProperties playerStakeThresholdProperties;
 
-    public void verify(Long accountId) {
+    public void evaluate(Long accountId) {
         Set<PlayerStakeEntity> playerStakes = playerStakeRepository
                 .findAllByAccountAndHoursThreshold(accountId, playerStakeThresholdProperties.getHours());
 

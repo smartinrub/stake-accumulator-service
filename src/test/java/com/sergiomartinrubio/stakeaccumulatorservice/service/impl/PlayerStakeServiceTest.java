@@ -4,7 +4,7 @@ import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeService;
-import com.sergiomartinrubio.stakeaccumulatorservice.service.StakeVerificationService;
+import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeNotificationService;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.utils.PlayerStakeTransformer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class PlayerStakeServiceTest {
     private PlayerStakeRepository playerStakeRepository;
 
     @Mock
-    private StakeVerificationService stakeVerificationService;
+    private PlayerStakeNotificationService playerStakeNotificationService;
 
     @InjectMocks
     private PlayerStakeService playerStakeService;
@@ -52,7 +52,7 @@ class PlayerStakeServiceTest {
 
         // THEN
         then(playerStakeRepository).should().save(playerStakeEntity);
-        then(stakeVerificationService).should().verify(ACCOUNT_ID);
+        then(playerStakeNotificationService).should().evaluate(ACCOUNT_ID);
     }
 
 }
