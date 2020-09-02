@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.controller;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ class PlayerStakeControllerTest {
                 .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isCreated());
-        then(playerStakeService).should().process(new PlayerStake(123, new BigDecimal(40)));
+        then(playerStakeService).should().process(new PlayerStakeDto(123, new BigDecimal(40)));
     }
 
     @Test

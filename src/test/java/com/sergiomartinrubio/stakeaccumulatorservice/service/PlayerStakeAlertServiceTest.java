@@ -1,8 +1,7 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.service;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,7 +32,7 @@ class PlayerStakeAlertServiceTest {
     @Test
     void shouldReturnPlayerStakeAlerts() {
         // GIVEN
-        PlayerStakeAlertEntity playerStakeAlert = PlayerStakeAlertEntity.builder()
+        PlayerStakeAlert playerStakeAlert = PlayerStakeAlert.builder()
                 .id(PLAYER_STAKE_ALERT_ID)
                 .accountId(ACCOUNT_ID)
                 .cumulatedAmount(new BigDecimal(120))
@@ -42,10 +41,10 @@ class PlayerStakeAlertServiceTest {
         given(playerStakeAlertRepository.findAllByAccountIdEquals(ACCOUNT_ID)).willReturn(Set.of(playerStakeAlert));
 
         // WHEN
-        Set<PlayerStakeAlert> playerStakeAlerts = playerStakeAlertService.findAllByAccountId(ACCOUNT_ID);
+        Set<com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert> playerStakeAlerts = playerStakeAlertService.findAllByAccountId(ACCOUNT_ID);
 
         // THEN
-        PlayerStakeAlert expected = PlayerStakeAlert.builder()
+        com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert expected = com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert.builder()
                 .id(PLAYER_STAKE_ALERT_ID)
                 .accountId(ACCOUNT_ID)
                 .cumulatedAmount(new BigDecimal(120))

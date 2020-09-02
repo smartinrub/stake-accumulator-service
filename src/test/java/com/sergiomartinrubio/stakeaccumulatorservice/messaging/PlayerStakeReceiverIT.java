@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.messaging;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeMessage;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeService;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class PlayerStakeReceiverIT {
         jmsTemplate.convertAndSend(queueName, playerStakeMessage);
 
         // THEN
-        then(playerStakeService).should(timeout(1000)).process(new PlayerStake(ACCOUNT_ID, PLAYER_STAKE));
+        then(playerStakeService).should(timeout(1000)).process(new PlayerStakeDto(ACCOUNT_ID, PLAYER_STAKE));
     }
 
 }

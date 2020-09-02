@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.messaging;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeMessage;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,6 @@ public class PlayerStakeReceiver {
     public void receiveMessage(PlayerStakeMessage message) {
         log.info("Message received for account {} with stake {}", message.getAccountId(), message.getStake());
         // Assuming there is another service publishing messages to player-stake-queue
-        playerStakeService.process(new PlayerStake(message.getAccountId(), message.getStake()));
+        playerStakeService.process(new PlayerStakeDto(message.getAccountId(), message.getStake()));
     }
 }

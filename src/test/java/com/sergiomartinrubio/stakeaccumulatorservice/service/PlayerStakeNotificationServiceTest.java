@@ -5,8 +5,8 @@ import com.sergiomartinrubio.stakeaccumulatorservice.messaging.PlayerStakeAlertP
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertMessage;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlert;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStake;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -51,10 +51,10 @@ class PlayerStakeNotificationServiceTest {
     @Test
     void shouldNotSendAlertWhenPlayerStakeIsUnder100() {
         // GIVEN
-        PlayerStakeEntity firstPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
-        PlayerStakeEntity secondPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
+        PlayerStake firstPlayerStake = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
+        PlayerStake secondPlayerStake = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
         given(playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES))
-                .willReturn(Set.of(firstPlayerStakeEntity, secondPlayerStakeEntity));
+                .willReturn(Set.of(firstPlayerStake, secondPlayerStake));
         given(playerStakeThresholdProperties.getAmount()).willReturn(AMOUNT_THRESHOLD);
         given(playerStakeThresholdProperties.getTimeWindowInMinutes()).willReturn(SIXTY_MINUTES);
 
@@ -69,15 +69,15 @@ class PlayerStakeNotificationServiceTest {
     @Test
     void shouldSendAlertWhenPlayerStakeIsUnder100() {
         // GIVEN
-        PlayerStakeEntity firstPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
-        PlayerStakeEntity secondPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
-        PlayerStakeEntity thirdPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_3, new BigDecimal(10));
-        PlayerStakeEntity fourthPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_4, new BigDecimal(40));
-        Set<PlayerStakeEntity> stakes = Set.of(
-                firstPlayerStakeEntity,
-                secondPlayerStakeEntity,
-                thirdPlayerStakeEntity,
-                fourthPlayerStakeEntity);
+        PlayerStake firstPlayerStake = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
+        PlayerStake secondPlayerStake = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
+        PlayerStake thirdPlayerStake = createPlayerStakeEntity(PLAYER_STAKE_ID_3, new BigDecimal(10));
+        PlayerStake fourthPlayerStake = createPlayerStakeEntity(PLAYER_STAKE_ID_4, new BigDecimal(40));
+        Set<PlayerStake> stakes = Set.of(
+                firstPlayerStake,
+                secondPlayerStake,
+                thirdPlayerStake,
+                fourthPlayerStake);
         given(playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES)).willReturn(stakes);
         given(playerStakeThresholdProperties.getAmount()).willReturn(AMOUNT_THRESHOLD);
         given(playerStakeThresholdProperties.getTimeWindowInMinutes()).willReturn(SIXTY_MINUTES);
@@ -87,11 +87,11 @@ class PlayerStakeNotificationServiceTest {
 
         // THEN
         then(playerStakeAlertProducer).should().sendMessage(new PlayerStakeAlertMessage(ACCOUNT_ID, new BigDecimal(130)));
-        then(playerStakeAlertRepository).should().save(any(PlayerStakeAlertEntity.class));
+        then(playerStakeAlertRepository).should().save(any(PlayerStakeAlert.class));
     }
 
-    private PlayerStakeEntity createPlayerStakeEntity(UUID playerStakeId, BigDecimal stake) {
-        return PlayerStakeEntity.builder()
+    private PlayerStake createPlayerStakeEntity(UUID playerStakeId, BigDecimal stake) {
+        return PlayerStake.builder()
                 .id(playerStakeId)
                 .accountId(ACCOUNT_ID)
                 .stake(stake)

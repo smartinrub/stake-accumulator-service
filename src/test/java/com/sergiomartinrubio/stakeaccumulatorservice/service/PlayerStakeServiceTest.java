@@ -1,10 +1,8 @@
-package com.sergiomartinrubio.stakeaccumulatorservice.service.impl;
+package com.sergiomartinrubio.stakeaccumulatorservice.service;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
-import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeService;
-import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeNotificationService;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStake;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.utils.PlayerStakeTransformer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,13 +37,13 @@ class PlayerStakeServiceTest {
     @Test
     void shouldSavePlayerStake() {
         // GIVEN
-        PlayerStake playerStake = new PlayerStake(ACCOUNT_ID, new BigDecimal(40));
-        PlayerStakeEntity playerStakeEntity = PlayerStakeEntity.builder()
+        PlayerStakeDto playerStake = new PlayerStakeDto(ACCOUNT_ID, new BigDecimal(40));
+        PlayerStake playerStakeEntity = PlayerStake.builder()
                 .accountId(playerStake.getAccountId())
                 .stake(playerStake.getStake())
                 .creationDateTime(NOW)
                 .build();
-        given(playerStakeTransformer.transformPlayerStake(playerStake)).willReturn(playerStakeEntity);
+        given(playerStakeTransformer.transform(playerStake)).willReturn(playerStakeEntity);
 
         // WHEN
         playerStakeService.process(playerStake);

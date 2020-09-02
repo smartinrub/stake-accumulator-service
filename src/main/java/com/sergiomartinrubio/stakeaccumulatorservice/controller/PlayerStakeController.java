@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.controller;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,11 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/player-stake")
 public class PlayerStakeController {
 
-    private final PlayerStakeService playerStakeService;
+    private final PlayerStakeService playerStakeProcessorService;
 
     @ResponseStatus(CREATED)
     @PostMapping
-    public void processPlayerStake(@RequestBody @Valid PlayerStake playerStake) {
-        playerStakeService.process(playerStake);
+    public void processPlayerStake(@RequestBody @Valid PlayerStakeDto playerStake) {
+        playerStakeProcessorService.process(playerStake);
     }
 }

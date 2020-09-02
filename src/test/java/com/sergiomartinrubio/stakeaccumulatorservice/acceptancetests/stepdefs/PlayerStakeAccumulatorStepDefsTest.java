@@ -5,8 +5,8 @@ import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertMessa
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeMessage;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlert;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStake;
 import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -82,21 +82,21 @@ public class PlayerStakeAccumulatorStepDefsTest extends CucumberSpringContextCon
 
     @Then("do not store alert")
     public void do_not_store_alert() {
-        Set<PlayerStakeAlertEntity> alerts = playerStakeAlertRepository.findAllByAccountIdEquals(ACCOUNT_ID);
+        Set<PlayerStakeAlert> alerts = playerStakeAlertRepository.findAllByAccountIdEquals(ACCOUNT_ID);
         assertThat(alerts).isEmpty();
     }
 
     @Then("store alert with amount {}")
     public void store_alert_with_amount(BigDecimal amount) {
-        Set<PlayerStakeAlertEntity> alerts = playerStakeAlertRepository.findAllByAccountIdEquals(ACCOUNT_ID);
+        Set<PlayerStakeAlert> alerts = playerStakeAlertRepository.findAllByAccountIdEquals(ACCOUNT_ID);
         assertThat(alerts).hasSize(1);
-        PlayerStakeAlertEntity playerStakeAlertEntity = alerts.iterator().next();
-        assertThat(playerStakeAlertEntity.getCumulatedAmount()).isEqualTo(amount);
+        PlayerStakeAlert playerStakeAlert = alerts.iterator().next();
+        assertThat(playerStakeAlert.getCumulatedAmount()).isEqualTo(amount);
     }
 
 
-    private PlayerStakeEntity createPlayerStakeEntity(BigDecimal amount, LocalDateTime creationDateTime) {
-        return PlayerStakeEntity.builder()
+    private PlayerStake createPlayerStakeEntity(BigDecimal amount, LocalDateTime creationDateTime) {
+        return PlayerStake.builder()
                 .id(PLAYER_STAKE_ID)
                 .accountId(ACCOUNT_ID)
                 .stake(amount)

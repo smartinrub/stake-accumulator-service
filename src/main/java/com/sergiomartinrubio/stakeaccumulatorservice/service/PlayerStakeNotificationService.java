@@ -5,8 +5,8 @@ import com.sergiomartinrubio.stakeaccumulatorservice.messaging.PlayerStakeAlertP
 import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertMessage;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlert;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStake;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class PlayerStakeNotificationService {
     private final PlayerStakeAlertRepository playerStakeAlertRepository;
 
     public void evaluate(Long accountId) {
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository
+        Set<PlayerStake> playerStakes = playerStakeRepository
                 .findAllByAccountAndTimeWindowThreshold(accountId, playerStakeThresholdProperties.getTimeWindowInMinutes());
 
         BigDecimal totalStake = getTotalStake(playerStakes);
@@ -35,15 +35,15 @@ public class PlayerStakeNotificationService {
         if (totalStake.compareTo(playerStakeThresholdProperties.getAmount()) > 0) {
             PlayerStakeAlertMessage message = new PlayerStakeAlertMessage(accountId, totalStake);
             playerStakeAlertProducer.sendMessage(message);
-            PlayerStakeAlertEntity stakeAlertEntity = new PlayerStakeAlertEntity(UUID.randomUUID(),
+            PlayerStakeAlert stakeAlertEntity = new PlayerStakeAlert(UUID.randomUUID(),
                     accountId, totalStake, LocalDateTime.now());
             playerStakeAlertRepository.save(stakeAlertEntity);
         }
     }
 
-    private BigDecimal getTotalStake(Set<PlayerStakeEntity> playerStakes) {
+    private BigDecimal getTotalStake(Set<PlayerStake> playerStakes) {
         return playerStakes.stream()
-                .map(PlayerStakeEntity::getStake)
+                .map(PlayerStake::getStake)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

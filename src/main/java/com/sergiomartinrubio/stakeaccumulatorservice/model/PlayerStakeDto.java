@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Value
-public class PlayerStake {
+public class PlayerStakeDto {
     @NotNull
     @Min(value = 1, message = "Account ID starts from 1")
     long accountId;

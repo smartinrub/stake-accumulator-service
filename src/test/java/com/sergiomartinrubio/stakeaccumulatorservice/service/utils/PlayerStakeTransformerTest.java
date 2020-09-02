@@ -1,7 +1,7 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.service.utils;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStake;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeDto;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStake;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,8 +34,8 @@ class PlayerStakeTransformerTest {
     @Test
     void shouldTransformPlayerStakeObject() {
         // GIVEN
-        PlayerStake playerStake = new PlayerStake(ACCOUNT_ID, new BigDecimal(40));
-        PlayerStakeEntity playerStakeEntity = PlayerStakeEntity.builder()
+        PlayerStakeDto playerStake = new PlayerStakeDto(ACCOUNT_ID, new BigDecimal(40));
+        PlayerStake playerStakeEntity = PlayerStake.builder()
                 .accountId(playerStake.getAccountId())
                 .stake(playerStake.getStake())
                 .creationDateTime(NOW)
@@ -44,7 +44,7 @@ class PlayerStakeTransformerTest {
         given(clock.getZone()).willReturn(UK_ZONE_ID);
 
         // WHEN
-        PlayerStakeEntity result = playerStakeTransformer.transformPlayerStake(playerStake);
+        PlayerStake result = playerStakeTransformer.transform(playerStake);
 
         // THEN
         assertThat(result.getAccountId()).isEqualTo(playerStakeEntity.getAccountId());

@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.repository;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
+import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStake;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +34,13 @@ class PlayerStakeRepositoryTest {
     @Test
     void shouldContainPlayerStakeWithinThreshold() {
         // GIVEN
-        PlayerStakeEntity firstPlayerStake = createPlayerStake(STAKE_ID_1, CREATION_DATE_TIME_LESS_THAN_AN_HOUR);
-        PlayerStakeEntity secondPlayerStake = createPlayerStake(STAKE_ID_2, CREATION_DATE_TIME_MORE_THAN_AN_HOUR);
+        PlayerStake firstPlayerStake = createPlayerStake(STAKE_ID_1, CREATION_DATE_TIME_LESS_THAN_AN_HOUR);
+        PlayerStake secondPlayerStake = createPlayerStake(STAKE_ID_2, CREATION_DATE_TIME_MORE_THAN_AN_HOUR);
         playerStakeRepository.save(firstPlayerStake);
         playerStakeRepository.save(secondPlayerStake);
 
         // WHEN
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
+        Set<PlayerStake> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
 
         // THEN
         assertThat(playerStakes).hasSize(1);
@@ -50,18 +50,18 @@ class PlayerStakeRepositoryTest {
     @Test
     void shouldNotContainPlayerStakeOutsideThreshold() {
         // GIVEN
-        PlayerStakeEntity secondPlayerStake = createPlayerStake(STAKE_ID_2, CREATION_DATE_TIME_MORE_THAN_AN_HOUR);
+        PlayerStake secondPlayerStake = createPlayerStake(STAKE_ID_2, CREATION_DATE_TIME_MORE_THAN_AN_HOUR);
         playerStakeRepository.save(secondPlayerStake);
 
         // WHEN
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
+        Set<PlayerStake> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
 
         // THEN
         assertThat(playerStakes).hasSize(0);
     }
 
-    private PlayerStakeEntity createPlayerStake(UUID stakeId, LocalDateTime creationDateTime) {
-        return PlayerStakeEntity.builder()
+    private PlayerStake createPlayerStake(UUID stakeId, LocalDateTime creationDateTime) {
+        return PlayerStake.builder()
                 .id(stakeId)
                 .accountId(ACCOUNT_ID)
                 .stake(new BigDecimal(40))
