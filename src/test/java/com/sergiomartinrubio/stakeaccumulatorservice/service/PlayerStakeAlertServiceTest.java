@@ -1,5 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.service;
 
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlert;
 import org.junit.jupiter.api.Test;
@@ -41,10 +42,10 @@ class PlayerStakeAlertServiceTest {
         given(playerStakeAlertRepository.findAllByAccountIdEquals(ACCOUNT_ID)).willReturn(Set.of(playerStakeAlert));
 
         // WHEN
-        Set<com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert> playerStakeAlerts = playerStakeAlertService.findAllByAccountId(ACCOUNT_ID);
+        Set<PlayerStakeAlertDto> playerStakeAlerts = playerStakeAlertService.findAllByAccountId(ACCOUNT_ID);
 
         // THEN
-        com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert expected = com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert.builder()
+        PlayerStakeAlertDto expected = PlayerStakeAlertDto.builder()
                 .id(PLAYER_STAKE_ALERT_ID)
                 .accountId(ACCOUNT_ID)
                 .cumulatedAmount(new BigDecimal(120))

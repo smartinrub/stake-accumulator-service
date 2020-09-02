@@ -1,6 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.controller;
 
-import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert;
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.service.PlayerStakeAlertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class PlayerStakeAlertController {
     private final PlayerStakeAlertService playerStakeAlertService;
 
     @GetMapping("/{accountId}")
-    public Set<PlayerStakeAlert> processPlayerStake(@PathVariable("accountId") Long accountId) {
+    public Set<PlayerStakeAlertDto> processPlayerStake(@PathVariable("accountId") Long accountId) {
         return playerStakeAlertService.findAllByAccountId(accountId);
     }
 

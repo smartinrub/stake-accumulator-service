@@ -1,5 +1,6 @@
 package com.sergiomartinrubio.stakeaccumulatorservice.service;
 
+import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertDto;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlert;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +15,15 @@ public class PlayerStakeAlertService {
 
     private final PlayerStakeAlertRepository playerStakeAlertRepository;
 
-    public Set<com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert> findAllByAccountId(Long accountId) {
+    public Set<PlayerStakeAlertDto> findAllByAccountId(Long accountId) {
         Set<PlayerStakeAlert> playerStakeAlerts = playerStakeAlertRepository.findAllByAccountIdEquals(accountId);
         return playerStakeAlerts.stream()
                 .map(this::transformPlayerStakeAlert)
                 .collect(Collectors.toSet());
     }
 
-    private com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert transformPlayerStakeAlert(PlayerStakeAlert playerStakeAlert) {
-        return com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlert.builder()
+    private PlayerStakeAlertDto transformPlayerStakeAlert(PlayerStakeAlert playerStakeAlert) {
+        return PlayerStakeAlertDto.builder()
                 .id(playerStakeAlert.getId())
                 .accountId(playerStakeAlert.getAccountId())
                 .cumulatedAmount(playerStakeAlert.getCumulatedAmount())

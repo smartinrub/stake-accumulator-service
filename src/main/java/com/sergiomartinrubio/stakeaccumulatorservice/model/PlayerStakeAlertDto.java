@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Value
 @Builder
-public class PlayerStakeAlert {
+public class PlayerStakeAlertDto {
     UUID id;
     Long accountId;
     BigDecimal cumulatedAmount;
