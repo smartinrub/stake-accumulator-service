@@ -21,7 +21,11 @@ public class PlayerStakeTransformer {
                 .id(UUID.randomUUID())
                 .accountId(playerStake.getAccountId())
                 .stake(playerStake.getStake())
-                .creationDateTime(LocalDateTime.ofInstant(Instant.now(clock), clock.getZone()))
+                .creationDateTime(getCurrentDateTime())
                 .build();
+    }
+
+    private LocalDateTime getCurrentDateTime() {
+        return LocalDateTime.ofInstant(Instant.now(clock), clock.getZone());
     }
 }
