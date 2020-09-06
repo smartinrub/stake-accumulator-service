@@ -6,7 +6,6 @@ import com.sergiomartinrubio.stakeaccumulatorservice.model.PlayerStakeAlertMessa
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeAlertRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.PlayerStakeRepository;
 import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeAlertEntity;
-import com.sergiomartinrubio.stakeaccumulatorservice.repository.entity.PlayerStakeEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.UUID;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -26,10 +23,6 @@ import static org.mockito.BDDMockito.then;
 class PlayerStakeNotificationServiceTest {
 
     private static final Long ACCOUNT_ID = 123L;
-    private static final UUID PLAYER_STAKE_ID_1 = UUID.randomUUID();
-    private static final UUID PLAYER_STAKE_ID_2 = UUID.randomUUID();
-    private static final UUID PLAYER_STAKE_ID_3 = UUID.randomUUID();
-    private static final UUID PLAYER_STAKE_ID_4 = UUID.randomUUID();
     private static final BigDecimal AMOUNT_THRESHOLD = new BigDecimal(100);
     private static final int SIXTY_MINUTES = 60;
 
@@ -51,10 +44,8 @@ class PlayerStakeNotificationServiceTest {
     @Test
     void shouldNotSendAlertWhenPlayerStakeIsUnder100() {
         // GIVEN
-        PlayerStakeEntity firstPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
-        PlayerStakeEntity secondPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
-        given(playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES))
-                .willReturn(Set.of(firstPlayerStakeEntity, secondPlayerStakeEntity));
+        given(playerStakeRepository.getTotalStakeByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES))
+                .willReturn(Optional.of(BigDecimal.valueOf(80)));
         given(playerStakeThresholdProperties.getAmount()).willReturn(AMOUNT_THRESHOLD);
         given(playerStakeThresholdProperties.getTimeWindowInMinutes()).willReturn(SIXTY_MINUTES);
 
@@ -69,16 +60,8 @@ class PlayerStakeNotificationServiceTest {
     @Test
     void shouldSendAlertWhenPlayerStakeIsUnder100() {
         // GIVEN
-        PlayerStakeEntity firstPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_1, new BigDecimal(40));
-        PlayerStakeEntity secondPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_2, new BigDecimal(40));
-        PlayerStakeEntity thirdPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_3, new BigDecimal(10));
-        PlayerStakeEntity fourthPlayerStakeEntity = createPlayerStakeEntity(PLAYER_STAKE_ID_4, new BigDecimal(40));
-        Set<PlayerStakeEntity> stakes = Set.of(
-                firstPlayerStakeEntity,
-                secondPlayerStakeEntity,
-                thirdPlayerStakeEntity,
-                fourthPlayerStakeEntity);
-        given(playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES)).willReturn(stakes);
+        given(playerStakeRepository.getTotalStakeByAccountAndTimeWindowThreshold(ACCOUNT_ID, SIXTY_MINUTES))
+                .willReturn(Optional.of(BigDecimal.valueOf(130)));
         given(playerStakeThresholdProperties.getAmount()).willReturn(AMOUNT_THRESHOLD);
         given(playerStakeThresholdProperties.getTimeWindowInMinutes()).willReturn(SIXTY_MINUTES);
 
@@ -88,15 +71,6 @@ class PlayerStakeNotificationServiceTest {
         // THEN
         then(playerStakeAlertProducer).should().sendMessage(new PlayerStakeAlertMessage(ACCOUNT_ID, new BigDecimal(130)));
         then(playerStakeAlertRepository).should().save(any(PlayerStakeAlertEntity.class));
-    }
-
-    private PlayerStakeEntity createPlayerStakeEntity(UUID playerStakeId, BigDecimal stake) {
-        return PlayerStakeEntity.builder()
-                .id(playerStakeId)
-                .accountId(ACCOUNT_ID)
-                .stake(stake)
-                .creationDateTime(LocalDateTime.now())
-                .build();
     }
 
 }

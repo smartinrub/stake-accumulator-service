@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Set;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +32,7 @@ class PlayerStakeRepositoryTest {
     private PlayerStakeRepository playerStakeRepository;
 
     @Test
-    void shouldContainPlayerStakeWithinThreshold() {
+    void shouldReturnTotalStakeAmountWithinThreshold() {
         // GIVEN
         PlayerStakeEntity firstPlayerStake = createPlayerStake(STAKE_ID_1, CREATION_DATE_TIME_LESS_THAN_AN_HOUR);
         PlayerStakeEntity secondPlayerStake = createPlayerStake(STAKE_ID_2, CREATION_DATE_TIME_MORE_THAN_AN_HOUR);
@@ -40,24 +40,24 @@ class PlayerStakeRepositoryTest {
         playerStakeRepository.save(secondPlayerStake);
 
         // WHEN
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
+        Optional<BigDecimal> stakeTotalAmount = playerStakeRepository.getTotalStakeByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
 
         // THEN
-        assertThat(playerStakes).hasSize(1);
-        assertThat(playerStakes).containsExactlyInAnyOrder(firstPlayerStake);
+        assertThat(stakeTotalAmount).isNotEmpty();
+        assertThat(stakeTotalAmount.get()).isEqualByComparingTo(BigDecimal.valueOf(40));
     }
 
     @Test
-    void shouldNotContainPlayerStakeOutsideThreshold() {
+    void shouldReturnNullWhenNoStakeWithinAnHour() {
         // GIVEN
         PlayerStakeEntity secondPlayerStake = createPlayerStake(STAKE_ID_2, CREATION_DATE_TIME_MORE_THAN_AN_HOUR);
         playerStakeRepository.save(secondPlayerStake);
 
         // WHEN
-        Set<PlayerStakeEntity> playerStakes = playerStakeRepository.findAllByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
+        Optional<BigDecimal> stakeTotalAmount = playerStakeRepository.getTotalStakeByAccountAndTimeWindowThreshold(ACCOUNT_ID, MINUTES);
 
         // THEN
-        assertThat(playerStakes).hasSize(0);
+        assertThat(stakeTotalAmount).isEmpty();
     }
 
     private PlayerStakeEntity createPlayerStake(UUID stakeId, LocalDateTime creationDateTime) {

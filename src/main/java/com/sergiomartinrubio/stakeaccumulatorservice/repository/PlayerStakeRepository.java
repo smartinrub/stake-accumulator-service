@@ -6,15 +6,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface PlayerStakeRepository extends JpaRepository<PlayerStakeEntity, UUID> {
 
-    @Query(value = "SELECT * FROM player_stake " +
+    @Query(value = "SELECT SUM(stake) FROM player_stake " +
             "WHERE account_id = :accountId " +
             "AND current_timestamp < DATEADD(minute, :timeWindowInMinutes, creation_date_time)", nativeQuery = true)
-    Set<PlayerStakeEntity> findAllByAccountAndTimeWindowThreshold(@Param("accountId") Long accountId,
-                                                                  @Param("timeWindowInMinutes") int timeWindowInMinutes);
+    Optional<BigDecimal> getTotalStakeByAccountAndTimeWindowThreshold(@Param("accountId") Long accountId,
+                                                                      @Param("timeWindowInMinutes") int timeWindowInMinutes);
 }
